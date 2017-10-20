@@ -1,0 +1,200 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="javascript.js"></script>
+<script type="text/javascript" src="bigInt.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<div style="overflow: auto;" class="slideshow-container">
+    <div class="mySlides">
+        <h1 id="title" class="mdl-typography--display-3">RSA Encryption</h1>
+    </div>
+
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Encryption</u></p>
+        <p class="mdl-typography--headline"> Encryption is the process of encoding a message such that only authorized parties can access it. Encryption has existed for a long time, with one famous example being the Caesar cipher. This cipher involved shifting each letter in the message by a fixed amount. If one wanted to encode the message 'attack' with a right shift of 3, the result would be 'dwwdfn.'</p>
+    </div>
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Types of Encryption</u></p>
+        <p class="mdl-typography--headline"> There are two kinds of encryption, symmetric and asymmetric encryption. For simplicity, let's consider encrypting a message as putting a lock on it and decrypting as unlocking it with a key. For symmetric encryption, both parties share the secret key with each other before sending messages. Then, in order to send an encrypted message, one party locks the message and sends it openly to the other party. Since both have the same key, the other party can unlock it and obtain the unencrypted message. However, what if the two parties can never meet and share the secret key in the first place? This is where asymmetric encryption comes in.</p>
+        <p class="mdl-typography--headline"> For asymmetric encryption, also known as public key encryption, one party who we call party A leaves their lock out for people to use. If another party, party B, wanted to send a message to party A, they use party A's lock and secure or encrypt the package and send it. Party A keeps the key to the lock hidden so no one else can unlock or decrypt the package. </p>
+        </div>
+    
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Public-Key Encryption Animation</u></p>
+        <p class="mdl-typography--headline">This animation shows how public-key encryption works. </p>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="play()">Play</button><button class="mdl-button mdl-js-button mdl-button--raised" onclick="pause()">Pause</button> <button class="mdl-button mdl-js-button mdl-button--raised" onclick="reset()">Restart</button>
+        <br/>
+        <br/>
+        <img class="animSlide" src="images/animation-1.png" style="width:60%;"/> 
+    </div>
+    
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>RSA Encryption</u></p>
+        <p class="mdl-typography--headline">RSA is used to generate the key and the lock used in asymmetric encryption. RSA stands for Ron <b>R</b>ivest, Adi <b>S</b>hamir and Leonard <b>A</b>dleman, the first people to publicly describe it. The strength of RSA encryption lies on the difficulty of factoring large numbers.</p>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="play2()">Play</button><button class="mdl-button mdl-js-button mdl-button--raised" onclick="pause2()">Pause</button> <button class="mdl-button mdl-js-button mdl-button--raised" onclick="reset2()">Restart</button>
+        <br/>
+        <br/>
+        <img class="timeSlide" src="timeimages/time0.png" style="width:60%; display:block;"/> 
+
+        <p class="mdl-typography--headline">We can see from this animation that the time it takes to multiply large numbers stays constant, while the time it takes to factor large numbers increases exponentially. With large enough numbers, it would take years or even decades to factor them.</p>
+    </div>
+
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Generating the Modulus N</u></p>
+        <p class="mdl-typography--headline"> To begin RSA encryption, we must first generate two large <b id="primedef">primes</b>. The larger the prime, the harder the encryption will be to crack. </p>
+        <div class="mdl-tooltip mdl-tooltip--large" for="primedef">A prime is a number greater than 1 that is only divisible by 1 and itself</div>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="p">
+            <label class="mdl-textfield__label" for="p">p</label>
+        </div>
+        <br/>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="q">
+            <label class="mdl-textfield__label" for="q">q</label>
+        </div>
+        <br/>
+        <p style="float: left;">&nbsp; &nbsp; &nbsp; &nbsp;</p><button class="mdl-button mdl-js-button mdl-button--raised" id="multiplybutton" onclick="multiply()">Generate</button><button class="mdl-button mdl-js-button mdl-button--raised" id="randombutton" onclick="randomize()">Randomize</button>
+        <div class="mdl-tooltip mdl-tooltip--large" for="multiplybutton">Calculates $N$ using<br>user input for $p$ and $q$</div>
+        <div class="mdl-tooltip mdl-tooltip--large" for="randombutton">Generates random<br>32-bit primes</div>
+        <br/>
+        <p class="mdl-typography--headline" style="display:none;" id = "bothnotprime">Both p and q are not prime.</p>
+        <p class="mdl-typography--headline" style="display:none;" id = "pnotprime">p is not prime.</p>
+        <p class="mdl-typography--headline" style="display:none;" id = "qnotprime">q is not prime.</p>
+        <br/>
+        <p class="mdl-typography--headline" style="float: left;" id = "ntag">$N = p \cdot q$: &nbsp</p>
+        <p class="mdl-typography--headline" style="float: left;" id="modulusn" />
+        <p class="mdl-typography--headline" style="clear: left"> $N$ is the modulus used when encrypting and decrypting.</p> 
+    </div>
+    
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Calculating &Phi;(N)</u></p>
+        <p class="mdl-typography--headline"> Then we need to calculate $\Phi(N)$. $\Phi(N) = (p-1)\cdot (q-1)$.</p>
+        <button class="mdl-button mdl-button--raised mdl-js-button dialog-button" onclick="phimodal()">Learn More About $\Phi(N)$</button>
+        <dialog id="phimodal" class="mdl-dialog">
+            <h3 class="mdl-dialog__title">What is $\Phi(N)$?</h3>
+            <div class="mdl-dialog__content">
+                <p class="mdl-typography--headline"> $\Phi(N)$ is the Euler's totient function, which counts the number of positive integers less than $N$ that are coprime to $N$. (share no common factor except $1$).</p>
+                <br/>
+                <p class="mdl-typography--headline"> Examples: </p>
+                <p class="mdl-typography--headline">$\Phi(5) = 4$ because $5$ is coprime to $1$, $2$, $3$, and $4$.</p>
+                <p class="mdl-typography--headline">$\Phi(9) = 6$ because $9$ is coprime to $1$, $2$, $4$, $5$, $7$, and $8$.</p>
+                <br/>
+                <p class="mdl-typography--headline">Our goal is to find a formula for $\Phi(N)$ based on $N$'s prime factorization.</p>
+                <p class="mdl-typography--headline"> We begin by finding the prime factorization of $N$. Assume that $N=p_1^{\alpha_1}\cdot p_2^{\alpha_2}\cdot \ldots \cdot p_k^{\alpha_k}$, where $p_i$ is prime, and $\alpha_i > 0$.
+                <br/>
+                <p class="mdl-typography--headline">Then $\Phi(N) = p_1^{\alpha_1 - 1}\cdot p_2^{\alpha_2 - 1}\cdot \ldots \cdot p_k^{\alpha_k - 1}\cdot (p_1-1)\cdot (p_2-1)\cdot \ldots \cdot(p_k-1)$.</p>
+                <br/>
+                <p class="mdl-typography--headline">Therefore, since $N = p\cdot q$ in our case, $\Phi(N) = p^0 \cdot q^0 \cdot (p-1)\cdot(q-1) = (p-1)\cdot (q-1)$.</p>
+            </div>
+            <div class="mdl-dialog__actions">
+                <button type="button" class="mdl-button mdl-button--raised" onclick="phimodalclose()">Close</button>
+            </div>
+        </dialog>
+        <br/>
+        <br/>
+        <p class="mdl-typography--headline" style="float: left;" id = "phitag">So $\Phi(N) =$ &nbsp; </p>
+        <p class="mdl-typography--headline" style="float: left;" id = "phivalue"></p>
+        <p class="mdl-typography--headline" style="clear: left;"> $\Phi(N)$ is used to create the public and private keys.</p>
+    </div>
+    
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Obtaining the Encryption and Decryption Keys</u></p>
+        <p class="mdl-typography--headline">Now, we define our encryption key $e$ and our decryption key $d$ to satisfy the equation $d\cdot e \equiv 1 \bmod \Phi(N)$, where $e$ must be <b id="coprimedef">coprime</b> with $\Phi(N)$. In other words, $d\cdot e = k \cdot \Phi(N) + 1$, for some $k > 0$.</p>
+        <div class="mdl-tooltip mdl-tooltip--large" for="coprimedef">Two numbers, $a$ and $b$, are coprime if $a$ and $b$ share no common factor except $1$</div>
+        <button class="mdl-button mdl-button--raised mdl-js-button dialog-button" onclick="modmodal()">Learn About Modular Arithmetic</button>
+        <dialog id="modarith" class="mdl-dialog">
+            <h3 class="mdl-dialog__title">Modular Arithmetic</h3>
+            <div class="mdl-dialog__content">
+                <p class="mdl-typography--headline">Sometimes when you are trying to divide two numbers, you see that they won't fully divide out and leave a remainder.</p>
+                <p class="mdl-typography--headline">For example, if you try dividing $8$ by $3$, you get a remainder of $2$. This is the basis of modular arithmetic, where numbers are written as the remainder of another number called the modulus.</p>
+                <p class="mdl-typography--headline">We can take our previous example of $8$ divided by $3$ having a remainder of $2$, and write in a more formal notation: $8 \equiv 2 \bmod 3$. Here, $3$ is our modulus. This equation is pronounced '$8$ is congruent to $2$ mod $3$'.</p>
+                <p class="mdl-typography--headline">We can see that many numbers have the same remainder given a certain modulus. For instance, $5$, $8$, and $14$ are all congruent to $2$ mod $3$. In other words, all of them have a remainder of $2$ when divided by $3$.</p>
+                <p class="mdl-typography--headline">With this idea in mind, we can create a general sense of modular arithmetic. Suppose we have $a \equiv b \bmod n$. This means that if we divide $a$ by $n$, we get a remainder of $b$.</p>
+                <p class="mdl-typography--headline">We can actually write $a$ as an equation in terms of $b$, $n$, and a constant $k$: &nbsp;$a = k\cdot n + b$, where $k > 0$.</p>
+                <p class="mdl-typography--headline">This equation intuitively makes sense because we are just $b$ off from being a multiple of $n$.</p>
+            </div>
+            <div class="mdl-dialog__actions">
+                <button type="button" class="mdl-button mdl-button--raised" onclick="modmodalclose()">Close</button>
+            </div>
+        </dialog>
+
+        <br/>
+        <br/>
+        <p class="mdl-typography--headline">Now, choose $e$, such that $e$ is coprime to $\Phi(N)$. In practice, $e$ is usually $2^{16}+1 = 65537$.</p>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="e">
+            <label class="mdl-textfield__label" for="e">e</label>
+        </div>
+        <br/>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="checke()">Calculate $d$</button>
+        <br/>
+        <br/>
+        <p class="mdl-typography--headline" style="display: none;" id="eerror">$e$ is not coprime to $\Phi(N)$.</p>
+        <br/>
+        <p class="mdl-typography--headline" style="float: left;" id = "dtag"> $d$: &nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;" id = "dvalue"></p>
+        <p style="clear: left;">&nbsp;</p>
+        <p class="mdl-typography--headline"> One interesting question that arises is this: why are we using $\Phi(N)$ as our modulus for calculating the encryption and decryption key? The answer is quite simple: it is hard to calculate $\Phi(N)$. Try it yourself! Without knowing that $N = p\cdot q$ and therefore $\Phi(N) = (p-1)\cdot(q-1)$, $\Phi(N)$ is hard to calculate. Therefore, we use $\Phi(N)$ because we can calculate it easily and use it to generate the keys, but no one else can.</p>
+    </div>
+    
+    <div style="display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Message Encryption</u></p>
+        <p class="mdl-typography--headline">Now we can finally try encrypting and decrypting a message.</p>
+        <br/>
+        <p class="mdl-typography--headline">We can obtain the cipher text $c$, our encrypted message, by doing the following calculation: $c = m^e \bmod n$.
+        <br/>
+        <p class="mdl-typography--headline">This means that we need to convert our message in a number form.</p>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="message">
+            <label class="mdl-textfield__label" for="message">Message</label>
+        </div>
+        <br/>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="encrypt()">Encrypt</button>
+        <br/>
+        <br/>
+        <p class="mdl-typography--headline" style="float: left;">Numerical conversion of message: &nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;" id = "numbermessage"></p>
+        <p class="mdl-typography--headline" style="clear: left">&nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;">Encrypted message: &nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;" id = "encrypt"></p>
+        <p class="mdl-typography--headline" style="clear: left">&nbsp;</p>
+        <p class="mdl-typography--headline">To decrypt the message, we just do the opposite: $m = c^d \bmod n$. </p>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="decrypt()">Decrypt</button>
+        <br/>
+        <br/>
+        <p class="mdl-typography--headline" style="float: left;">Decrypted numerical message: &nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;" id = "decrypt"></p>
+        <p class="mdl-typography--headline" style="clear: left">&nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;">Decrypted message: &nbsp;</p>
+        <p class="mdl-typography--headline" style="float: left;" id = "decryptfull"></p>
+    </div>
+    
+    <div style = "display: none;" class="mySlides">
+        <p class="mdl-typography--display-2"><u>Full RSA Encryption Animation</u></p>
+        <p class="mdl-typography--headline">Here is an animation that shows the entire process of RSA encryption.</p>
+        <button class="mdl-button mdl-js-button mdl-button--raised" onclick="play3()">Play</button><button class="mdl-button mdl-js-button mdl-button--raised" onclick="pause3()">Pause</button><button class="mdl-button mdl-js-button mdl-button--raised" onclick="reset3()">Restart</button>
+        <br/>
+        <br/>
+        <img class="fullRSASlide" src="fullrsa/FullRSA(0).png" style="width:60%;"/>
+    </div>
+</div>
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
