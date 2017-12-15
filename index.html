@@ -90,7 +90,7 @@
         <p class="mdl-typography--display-2"><u>Calculating &Phi;(N)</u></p>
         <p class="mdl-typography--headline"> Then we need to calculate $\Phi(N)$. $\Phi(N) = (p-1)\cdot (q-1)$.</p>
         <button class="mdl-button mdl-button--raised mdl-js-button dialog-button" onclick="phimodal()">Learn More About $\Phi(N)$</button>
-        <dialog id="phimodal" class="mdl-dialog">
+        <dialog id="phimodal" class="mdl-dialog" style="overflow: auto;">
             <h3 class="mdl-dialog__title">What is $\Phi(N)$?</h3>
             <div class="mdl-dialog__content">
                 <p class="mdl-typography--headline"> $\Phi(N)$ is the Euler's totient function, which counts the number of positive integers less than $N$ that are coprime to $N$. (share no common factor except $1$).</p>
@@ -122,7 +122,7 @@
         <p class="mdl-typography--headline">Now, we define our encryption key $e$ and our decryption key $d$ to satisfy the equation $d\cdot e \equiv 1 \bmod \Phi(N)$, where $e$ must be <b id="coprimedef">coprime</b> with $\Phi(N)$. In other words, $d\cdot e = k \cdot \Phi(N) + 1$, for some $k > 0$.</p>
         <div class="mdl-tooltip mdl-tooltip--large" for="coprimedef">Two numbers, $a$ and $b$, are coprime if $a$ and $b$ share no common factor except $1$</div>
         <button class="mdl-button mdl-button--raised mdl-js-button dialog-button" onclick="modmodal()">Learn About Modular Arithmetic</button>
-        <dialog id="modarith" class="mdl-dialog">
+        <dialog id="modarith" class="mdl-dialog" style="overflow: auto;">
             <h3 class="mdl-dialog__title">Modular Arithmetic</h3>
             <div class="mdl-dialog__content">
                 <p class="mdl-typography--headline">Sometimes when you are trying to divide two numbers, you see that they won't fully divide out and leave a remainder.</p>
