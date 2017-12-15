@@ -345,3 +345,23 @@ var modmodalclose = function() {
     }
     dialog.close();
 }
+
+// Preload images
+var images = new Array()
+var images2 = new Array()
+var images3 = new Array()
+function preload() {
+    for (var i = 1; i <= 80; i++) {
+        images[i] = new Image()
+        images[i].src = "images/animation-"+ i +".png";
+    }
+    for(var j = 0; j <= 16; j++) {
+        images2[j] = new Image()
+        images2[j].src = "timeimages/time"+ j +".png";
+    }
+    for(var k = 0; k <= 70; k++) {
+        images3[k] = new Image()
+        images3[k].src = "fullrsa/FullRSA("+ k +").png";
+    }
+}
+preload();
